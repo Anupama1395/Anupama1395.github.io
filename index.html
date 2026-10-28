@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anupama Singh</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Anupama Singh: machine learning engineer working in applied ML, computer vision and NLP. M.S. Computer Science, Cal Poly Pomona.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Tiro+Devanagari+Hindi&display=swap">
+<style>
+/* Layout: night chapters (hero, research, contact) around one tilted "paper" chapter (projects,
+   code, experience, education). Fixed particle field behind the night chapters morphs per section.
+   Single deliberate look, so colors are explicit and dark-only. */
+:root{
+  --night:#07080c; --night-2:#0c0e14; --paper:#e4e9ed; --paper-2:#d7dee6;
+  --ink:#0f1722; --blue:#16357e; --ivory:#f4f1ea; --red:#e2492a; --gold:#d9a441; --ice:#8fb8c9;
+  --hair:rgba(244,241,234,.16); --hair-ink:rgba(22,53,126,.22); --dim:rgba(244,241,234,.55); --dim-2:rgba(244,241,234,.38);
+  --serif:"Instrument Serif", Palatino, "Palatino Linotype", Georgia, serif;
+  --sans:"Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --deva:"Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+  --pad:max(20px, min(5vw, 88px));
+  --ease:cubic-bezier(.22,.68,0,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--ivory);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+.in{max-width:76rem;margin:0 auto;padding-left:max(var(--pad), env(safe-area-inset-left, 0px));padding-right:max(var(--pad), env(safe-area-inset-right, 0px))}
+.mono{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
+em.r{font-style:italic;color:var(--red)}
+.ul{text-decoration:none;border-bottom:1px solid rgba(143,184,201,.45);color:var(--ice);transition:border-color .2s}
+.ul:hover{border-color:var(--ice)}
+
+/* --- chrome: progress, ticks, cursor, splash --- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:60;background:var(--night)}
+#bar{position:fixed;left:0;top:env(safe-area-inset-top, 0px);height:2px;width:100%;z-index:61;background:linear-gradient(90deg,var(--red),var(--gold));transform-origin:0 50%;transform:scaleX(0)}
+#ticks{position:fixed;right:max(18px, env(safe-area-inset-right, 0px));top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:14px;mix-blend-mode:difference}
+#ticks a{display:flex;align-items:center;gap:10px;text-decoration:none;height:6px}
+#ticks a i{display:block;width:22px;height:1px;background:#fff;opacity:.55;transition:width .4s var(--ease),opacity .3s}
+#ticks a span{font:500 .6rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:0;transform:translateX(6px);transition:.3s}
+#ticks a:hover span{opacity:.9;transform:none}
+#ticks a.on i{width:46px;opacity:1}
+@media (max-width:760px){ #ticks{display:none} }
+#ring{position:fixed;left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;border:1px solid rgba(244,241,234,.55);border-radius:50%;pointer-events:none;z-index:70;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s}
+#ring.big{width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,255,255,.08)}
+@media (pointer:coarse){ #ring{display:none} }
+#splash{position:fixed;inset:0;z-index:80;background:var(--night);display:grid;place-items:center;text-align:center;transition:opacity .9s var(--ease),visibility .9s}
+#splash.gone{opacity:0;visibility:hidden}
+#splash h2{font:400 clamp(3.6rem,10vw,8rem)/1 var(--serif);margin:0;letter-spacing:-.01em}
+#splash h2 i{font-size:.42em;margin:0 .15em;vertical-align:.15em}
+#splash p{margin:1.4rem 0 0;color:var(--dim-2)}
+#splash h2, #splash p{animation:rise 1s var(--ease) both}
+#splash p{animation-delay:.25s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main, footer{position:relative;z-index:1}
+
+/* --- hero --- */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-block:6rem 4rem;position:relative}
+.ordinary{position:absolute;top:1.6rem;right:max(var(--pad), env(safe-area-inset-right, 0px));color:var(--ice);text-decoration:none;border-bottom:1px solid rgba(143,184,201,.4);padding-bottom:2px}
+.name{font:400 clamp(3.4rem,8.6vw,7.4rem)/.86 var(--serif);text-transform:uppercase;letter-spacing:-.02em;margin:0;text-shadow:0 0 40px var(--night)}
+.name i{color:var(--red);display:block}
+.idrow{display:flex;align-items:center;gap:1.4rem;margin-top:1.8rem;flex-wrap:wrap}
+.seal{width:4.6rem;height:4.6rem;background:var(--red);color:#fff4ee;display:grid;place-items:center;border-radius:5px;font:400 1.9rem/1 var(--serif);letter-spacing:.02em;text-align:center;box-shadow:inset 0 0 0 3px var(--red), inset 0 0 0 4.5px #fff4ee;}
+.idrow .who{display:flex;flex-direction:column;gap:.45rem}
+.idrow .lat{font:italic 400 1.35rem/1 var(--serif);color:var(--gold)}
+.idrow .mono b{color:var(--red);font-weight:500}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 3rem;margin-top:2.4rem;padding-top:2rem;border-top:1px solid var(--hair);max-width:36rem}
+.facts div{display:flex;flex-direction:column;gap:.3rem;font-size:.92rem;min-width:0}
+.facts span:first-child{color:var(--dim);font-size:.85rem}
+@media (max-width:520px){ .facts{grid-template-columns:1fr} }
+.scroll{margin-top:3rem;display:flex;align-items:center;gap:.9rem;color:var(--dim-2)}
+.scroll::before{content:"";width:1px;height:30px;background:var(--red)}
+
+/* --- thesis --- */
+#thesis{padding-block:6rem 8rem}
+.q{font:700 clamp(2.4rem,5.4vw,4.4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0;max-width:16ch;text-shadow:0 0 50px var(--night)}
+.q b{color:var(--gold);font-weight:700;border-bottom:2px solid rgba(217,164,65,.45)}
+.tgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,25rem);gap:4rem;margin-top:4rem;align-items:start}
+@media (max-width:900px){ .tgrid{grid-template-columns:1fr;gap:3rem} }
+.tgrid p{margin:0 0 1.1rem;max-width:34rem;color:rgba(244,241,234,.86);text-shadow:0 0 20px var(--night)}
+.drop::first-letter{float:left;font:400 3.6rem/.8 var(--serif);color:var(--red);margin:.35rem .6rem 0 0}
+.tgrid p.small{font-size:.88rem;color:var(--dim)}
+.live{border:1px solid var(--hair);background:rgba(12,14,20,.86);backdrop-filter:blur(3px);padding:1.1rem}
+.live-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;color:var(--dim)}
+.live-h .st{color:var(--red)}
+#grid{display:grid;grid-template-columns:repeat(18,1fr);gap:2px;padding:6px;background:#05060a;border:1px solid var(--hair)}
+#grid i{aspect-ratio:1;background:#151923;transition:background .25s,box-shadow .25s;max-width:100%}
+#grid i.h{background:#2b3a2f}
+#grid i.s{background:#4a3a1a}
+#grid i.seen.h{background:#3f6a4c}
+#grid i.seen.s{background:#8a6a24}
+#grid i.flag{background:var(--red)!important;box-shadow:0 0 6px rgba(226,73,42,.6)}
+#grid i.fa{background:var(--gold)!important}
+#grid i.scan{box-shadow:inset 0 0 0 1px rgba(244,241,234,.6)}
+.read{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--hair);border-top:0}
+.read div{padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+.read div:nth-child(odd){border-right:1px solid var(--hair)}
+.read div:nth-child(-n+2){border-bottom:1px solid var(--hair)}
+.read b{font:500 1.15rem/1 var(--mono);font-variant-numeric:tabular-nums}
+.read .g b{color:var(--gold)}
+.thr{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem;color:var(--dim)}
+.thr input{width:100%;accent-color:var(--red)}
+.thr .row{display:flex;justify-content:space-between}
+.live .cap{margin-top:.8rem;font-size:.78rem;color:var(--dim-2)}
+.dirs{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-top:7rem;position:relative}
+.dirs::after{content:"⇆";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--dim-2);font-size:1.2rem}
+@media (max-width:860px){ .dirs{grid-template-columns:1fr;gap:1.5rem} .dirs::after{display:none} }
+.dir{border:1px solid var(--hair);background:rgba(12,14,20,.78);padding:2.2rem 2rem}
+.dir h3{font:400 2.3rem/1.05 var(--serif);margin:1rem 0 1.4rem}
+.dir ul{list-style:none;margin:0;padding:0 0 0 1.2rem;border-left:1px solid rgba(226,73,42,.5);display:grid;gap:.75rem;color:rgba(244,241,234,.8);font-size:.95rem}
+
+/* --- paper chapter --- */
+.paper{background:var(--paper);color:var(--ink);clip-path:polygon(0 4.5vw,100% 0,100% 100%,0 100%);padding-top:calc(4.5vw + 1px);margin-top:-1px;
+  background-image:repeating-linear-gradient(0deg, transparent 0 23px, rgba(22,53,126,.035) 23px 24px)}
+.paper .ul{color:var(--blue);border-color:rgba(22,53,126,.3)}
+.runner{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--hair-ink)}
+.runner .in{display:flex;justify-content:space-between;gap:1rem;padding-block:1rem;color:rgba(15,23,34,.55)}
+.runner b{color:var(--red);font-weight:500}
+@media (max-width:640px){ .runner .side{display:none} .runner .in{justify-content:center} }
+.ch{padding-block:6rem 3rem}
+.ch h2{font:700 clamp(2.3rem,5vw,4rem)/1.05 var(--sans);letter-spacing:-.035em;margin:0 0 3rem}
+.ch h2 .r{color:var(--red)}
+.ch.dark-tail{padding-bottom:9rem}
+
+.pub{display:grid;grid-template-columns:8.5rem minmax(0,1fr) minmax(0,27rem);gap:2.5rem;padding-block:3.5rem;border-top:1px solid var(--hair-ink)}
+.pub:first-of-type{border-top:0;padding-top:1rem}
+@media (max-width:980px){ .pub{grid-template-columns:5rem minmax(0,1fr)} .pub .plate{grid-column:1 / -1} }
+@media (max-width:560px){ .pub{grid-template-columns:1fr;gap:1rem} }
+.num{font:400 4.4rem/.9 var(--serif);color:var(--red)}
+.num + .mono{display:block;margin-top:.7rem;color:rgba(15,23,34,.5)}
+.pub h3{font:600 clamp(1.4rem,2.4vw,1.85rem)/1.2 var(--sans);letter-spacing:-.02em;margin:0 0 .9rem}
+.authors{font-size:.88rem;color:rgba(15,23,34,.6);margin:0 0 1.1rem}
+.authors b{color:var(--ink)}
+.abs-t{color:var(--red);display:inline-flex;gap:.5rem;align-items:center}
+.abs-t span{color:rgba(15,23,34,.55)}
+.abs{max-height:0;overflow:hidden;transition:max-height .6s var(--ease)}
+.abs p{margin:.9rem 0 0;font-size:.93rem;line-height:1.65;max-width:38rem}
+.pub.open .abs{max-height:30rem}
+.pills{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
+.pill{border:1px solid var(--hair-ink);border-radius:99px;padding:.55rem 1rem;text-decoration:none;color:var(--ink);transition:background .2s,color .2s}
+.pill:hover{background:var(--ink);color:var(--paper)}
+.plate{border:1px solid rgba(22,53,126,.2);background:#eef2f5;margin:0;min-width:0}
+.plate svg{display:block;width:100%;height:auto}
+.plate figcaption{border-top:1px solid rgba(22,53,126,.15);padding:.8rem 1rem;color:rgba(15,23,34,.45);background:var(--paper-2)}
+
+.quote{border-left:2px solid var(--red);padding-left:1.2rem;margin:-1.5rem 0 3rem}
+.quote p{font:400 1.3rem/1.3 var(--serif);margin:0}
+.quote .mono{color:rgba(15,23,34,.45)}
+.discs{position:relative;overflow-x:auto}
+#discs{display:block;min-width:640px;width:100%;height:auto}
+.discs-note{margin-top:.6rem;color:rgba(15,23,34,.45)}
+.repo{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:2rem;padding-block:2rem;border-top:1px solid var(--hair-ink)}
+.repo:first-of-type{margin-top:2.5rem}
+@media (max-width:760px){ .repo{grid-template-columns:1fr;gap:.6rem} }
+.repo h4{font:600 1.3rem/1.2 var(--sans);margin:0 0 .3rem}
+.repo h4 a{text-decoration:none}
+.repo h4 a:hover{text-decoration:underline}
+.repo .sub{font-size:.8rem;color:rgba(15,23,34,.55)}
+.repo p{margin:0 0 .8rem;font-size:.92rem;max-width:40rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chips span{font:.66rem/1 var(--mono);border:1px solid rgba(22,53,126,.25);padding:.35rem .5rem;color:rgba(15,23,34,.7);background:#eef2f5}
+.repo .cnt{font:500 .95rem/1 var(--mono);text-align:right;padding-top:.3rem}
+@media (max-width:760px){ .repo .cnt{text-align:left} }
+
+.xp{position:relative;padding-left:2.4rem}
+.xp::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red);transform-origin:top;transform:scaleY(var(--p,1))}
+.job{position:relative;display:grid;grid-template-columns:8rem minmax(0,1fr) 3rem;gap:1.6rem;padding-block:2.2rem;border-top:1px solid var(--hair-ink);align-items:start}
+.job::before{content:"";position:absolute;left:calc(-2.4rem - 4px);top:2.6rem;width:10px;height:10px;border-radius:50%;background:var(--red)}
+@media (max-width:760px){ .job{grid-template-columns:1fr;gap:.5rem} .job .logo,.job .n{display:none} }
+.job .when{font:.72rem/1.5 var(--mono);color:rgba(15,23,34,.6);padding-top:.3rem}
+.logo{width:4.2rem;height:4.2rem;border-radius:50%;background:#fff;box-shadow:0 1px 0 rgba(22,53,126,.15), 0 0 0 1px rgba(22,53,126,.12);display:grid;place-items:center;font:400 1.9rem/1 var(--serif);color:var(--blue)}
+.job h4{font:600 1.35rem/1.2 var(--sans);margin:0 0 .3rem}
+.job .role{color:var(--red);font-size:.88rem}
+.job .n{font:400 2.4rem/1 var(--serif);color:rgba(15,23,34,.18);text-align:right}
+.job .did{margin-top:1rem}
+.job .did button{color:var(--red)}
+.job .did ul{margin:0;padding:0 0 0 1.1rem;max-height:0;overflow:hidden;transition:max-height .5s var(--ease);font-size:.92rem}
+.job.open .did ul{max-height:20rem;margin-top:.8rem}
+
+.edu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid rgba(22,53,126,.3)}
+@media (max-width:860px){ .edu{grid-template-columns:1fr} }
+.edu article{position:relative;overflow:hidden;padding:2rem 1.6rem 1.6rem;min-height:15rem;display:flex;flex-direction:column;border-right:1px solid rgba(22,53,126,.3);transition:background .3s}
+.edu article:last-child{border-right:0}
+@media (max-width:860px){ .edu article{border-right:0;border-bottom:1px solid rgba(22,53,126,.3)} .edu article:last-child{border-bottom:0} }
+.edu article:hover{background:#edf1f4}
+.edu .wm{position:absolute;right:-.6rem;bottom:-2.2rem;font:400 11rem/1 var(--serif);color:rgba(22,53,126,.07);pointer-events:none;transition:transform .6s var(--ease)}
+.edu article:hover .wm{transform:translateY(-.6rem) rotate(-4deg)}
+.edu .when{color:var(--red);font:.72rem/1 var(--mono)}
+.edu h4{font:600 1.35rem/1.2 var(--sans);margin:1.6rem 0 .8rem;position:relative}
+.edu p{margin:0;font-size:.88rem;position:relative}
+.edu .k{margin-top:auto;padding-top:1.4rem;font:.7rem/1 var(--mono);color:rgba(15,23,34,.4)}
+
+/* --- contact --- */
+#contact{padding-block:9rem 5rem;min-height:90svh;display:flex;flex-direction:column;justify-content:center}
+#contact h2{font:700 clamp(2.6rem,6vw,4.6rem)/1.02 var(--sans);letter-spacing:-.04em;margin:0;max-width:20ch;text-shadow:0 0 40px var(--night)}
+#contact h2 span{color:var(--red)}
+#contact p{max-width:34rem;color:rgba(244,241,234,.8);margin:1.6rem 0 2.4rem;text-shadow:0 0 20px var(--night)}
+.big{font:400 clamp(1.8rem,3.6vw,2.6rem)/1.1 var(--serif);display:flex;flex-wrap:wrap;gap:.4rem 2rem}
+.big a{text-decoration:none;border-bottom:1px solid var(--hair);transition:border-color .3s, color .3s}
+.big a:hover{border-color:var(--red);color:var(--red)}
+.foot-links{display:flex;flex-wrap:wrap;gap:2rem;margin-top:3.5rem;padding-top:1.4rem;border-top:1px solid var(--hair);color:var(--dim-2)}
+.foot-links a{text-decoration:none}
+.foot-links a:hover{color:var(--ivory)}
+footer{padding-block:2rem 2.5rem;color:var(--dim-2)}
+footer .in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:center}
+kbd{font:500 .66rem/1 var(--mono);border:1px solid var(--hair);border-bottom-width:2px;padding:.2rem .4rem;border-radius:3px;color:var(--ivory)}
+body.less #field{opacity:0}
+body.less .live, body.less .dir{background:var(--night-2)}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} #splash{display:none} }
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--hair);margin-top:2rem;max-width:36rem;background:rgba(12,14,20,.7)}
+.stats div{padding:.9rem 1rem;border-right:1px solid var(--hair);display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.stats div:last-child{border-right:0}
+.stats b{font:400 1.9rem/1 var(--serif);color:var(--gold)}
+@media (max-width:560px){ .stats{grid-template-columns:1fr 1fr} .stats div:nth-child(2){border-right:0} .stats div:nth-child(-n+2){border-bottom:1px solid var(--hair)} }
+.cite{font:.74rem/1.5 var(--mono);color:rgba(15,23,34,.55);margin:-.5rem 0 1.1rem}
+.sub-h{font:500 .68rem/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:rgba(15,23,34,.55);margin:3.5rem 0 0}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.cards2 article{border:1px solid rgba(22,53,126,.28);background:#eef2f5;padding:1.7rem;min-width:0}
+.cards2 h4{font:600 1.3rem/1.25 var(--sans);margin:.8rem 0 .6rem}
+.cards2 p{margin:0 0 1rem;font-size:.92rem}
+@media (max-width:760px){ .cards2{grid-template-columns:1fr} }
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid rgba(22,53,126,.3)}
+.skills div{padding:1.5rem;border-right:1px solid rgba(22,53,126,.3);border-bottom:1px solid rgba(22,53,126,.3);min-width:0}
+.skills div:nth-child(3n){border-right:0}
+.skills div:nth-last-child(-n+3){border-bottom:0}
+.skills h4{font:500 .68rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin:0 0 .9rem}
+.skills p{margin:0;font-size:.92rem;line-height:1.65}
+@media (max-width:860px){ .skills{grid-template-columns:1fr} .skills div{border-right:0!important;border-bottom:1px solid rgba(22,53,126,.3)!important} .skills div:last-child{border-bottom:0!important} }
+.service{display:grid;gap:.85rem;margin-top:3.5rem;max-width:52rem}
+.service .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:baseline;font-size:.92rem;border-bottom:1px dashed rgba(22,53,126,.25);padding-bottom:.75rem}
+.service .row span:last-child{color:var(--red);font:.72rem/1.4 var(--mono);text-align:right}
+@media (max-width:560px){ .service .row{grid-template-columns:1fr;gap:.2rem} .service .row span:last-child{text-align:left} }
+#contact p.mail{font:400 clamp(1.5rem,3vw,2rem)/1.2 var(--serif);color:var(--ivory);margin:0 0 1.6rem;user-select:all}
+.job .did ul li{margin-bottom:.45rem}
+.job.open .did ul{max-height:40rem}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="1.6"/></filter></svg>
+
+<div id="bar" aria-hidden="true"></div>
+<canvas id="field" aria-hidden="true"></canvas>
+<nav id="ticks" aria-label="Sections">
+  <a href="#hero"><span>Overview</span><i></i></a>
+  <a href="#thesis"><span>Research</span><i></i></a>
+  <a href="#work"><span>Publications</span><i></i></a>
+  <a href="#code"><span>Projects</span><i></i></a>
+  <a href="#chron"><span>Experience</span><i></i></a>
+  <a href="#skills"><span>Skills</span><i></i></a>
+  <a href="#edu"><span>Education</span><i></i></a>
+  <a href="#contact"><span>Contact</span><i></i></a>
+</nav>
+
+<main>
+<!-- HERO -->
+<section id="hero" data-shape="rings">
+  <a class="ordinary mono" href="https://www.linkedin.com/in/anupama-singh/" target="_blank" rel="noopener">LinkedIn ↗</a>
+  <div class="in">
+    <h1 class="name">Anupama<i>Singh</i></h1>
+    <div class="idrow">
+      <span class="seal" aria-label="Monogram">AS</span>
+      <div class="who">
+        <span class="lat">Machine Learning Engineer</span>
+        <span class="mono">Applied ML · Computer Vision · NLP · <b>Pomona, CA</b></span>
+      </div>
+    </div>
+    <div class="facts">
+      <div><span>Discipline</span><span>Applied machine learning, computer vision &amp; NLP</span></div>
+      <div><span>Position</span><span>M.S. Computer Science, expected Dec 2026<br><a class="ul" href="https://www.cpp.edu" target="_blank" rel="noopener">Cal Poly Pomona</a></span></div>
+      <div><span>Research</span><span>Graduate Research Assistant<br>UAV Plant Health Detection</span></div>
+      <div><span>Publication</span><a class="ul" href="https://doi.org/10.1117/12.3095124" target="_blank" rel="noopener">Proceedings of SPIE, 2026</a></div>
+      <div><span>Before</span><span>6+ years in analytics &amp; strategy<br><span style="color:var(--dim)">BYJU'S · Goal Teller · FreightCrate</span></span></div>
+      <div><span>Correspondence</span><span>anupamasingh47 [at] gmail [dot] com</span></div>
+      <div><span>Profile</span><a class="ul" href="https://www.linkedin.com/in/anupama-singh/" target="_blank" rel="noopener">linkedin.com/in/anupama-singh</a></div>
+      <div><span>Code</span><a class="ul" href="https://github.com/Anupama1395" target="_blank" rel="noopener">github.com/Anupama1395</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="thesis" data-shape="box">
+  <div class="in">
+    <h2 class="q"><b>Real-time detection</b> of plant health from UAV imagery</h2>
+    <div class="tgrid">
+      <div>
+        <p class="drop">Strawberry plants show signs of stress well before they are visible from the ground, and manual inspection of every row is slow and error-prone. My research at Cal Poly Pomona addresses this with a detection system that runs in the field.</p>
+        <p>I built a PyTorch pipeline that joins UAV imagery, EXIF-GPS coordinates, field annotations and proximal sensor readings. On this data I trained and compared <i>YOLOv8</i>, <i>YOLO11</i>, <i>DETR</i> and <i>Faster R-CNN</i>, evaluating each with mAP, per-class AP, precision, recall and confusion matrices to select a deployment model.</p>
+        <p>The selected YOLOv8 model runs on an NVIDIA Jetson Nano with live camera input, exported to ONNX and TensorRT FP16 for on-device inference. Hierarchical ResNet and EfficientNet classifiers then grade plants into ordered health categories. The results are published in the Proceedings of SPIE.</p>
+        <div class="stats">
+          <div><b>400+</b><span class="mono">UAV frames</span></div>
+          <div><b>9,000+</b><span class="mono">Annotations</span></div>
+          <div><b>4</b><span class="mono">Detectors compared</span></div>
+          <div><b>FP16</b><span class="mono">TensorRT on Jetson</span></div>
+        </div>
+      </div>
+      <div class="live" role="group" aria-label="Interactive field scan">
+        <div class="live-h mono"><span>Field scan · simulation</span><span class="st" id="mode">balanced</span></div>
+        <div id="grid" aria-hidden="true"></div>
+        <div class="read" aria-live="polite">
+          <div><span class="mono">Plants seen</span><b id="rSeen">0</b></div>
+          <div><span class="mono">Flagged</span><b id="rFlag" style="color:var(--red)">0</b></div>
+          <div class="g"><span class="mono">Missed</span><b id="rMiss">0</b></div>
+          <div class="g"><span class="mono">False alarms</span><b id="rFa">0</b></div>
+        </div>
+        <label class="thr" for="thr">
+          <span class="row mono"><span>Alert threshold</span><span id="thrV" style="color:var(--ivory)">0.50</span></span>
+          <input id="thr" type="range" min="0.1" max="0.9" step="0.01" value="0.5">
+        </label>
+        <p class="cap">Each cell represents one plant. Red cells are correctly flagged stressed plants; gold cells are false alarms on healthy plants. The threshold sets the precision–recall trade-off. Illustrative simulation.</p>
+      </div>
+    </div>
+
+    <div class="dirs">
+      <div class="dir">
+        <span class="mono" style="color:var(--dim-2)">Direction one</span>
+        <h3>Computer vision <em class="r">for</em> the physical world</h3>
+        <ul>
+          <li>Object detection and classification on UAV imagery</li>
+          <li>Edge deployment with ONNX, TensorRT and NVIDIA Jetson</li>
+          <li>Hazard detection on lunar elevation models</li>
+        </ul>
+      </div>
+      <div class="dir">
+        <span class="mono" style="color:var(--dim-2)">Direction two</span>
+        <h3>Data and language <em class="r">for</em> reliable ML</h3>
+        <ul>
+          <li>Synthetic clinical data for privacy-preserving research</li>
+          <li>Retrieval-augmented question answering</li>
+          <li>Rigorous evaluation: precision, recall, F1 and mAP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- II · PAPER -->
+<div class="paper">
+  <div class="runner"><div class="in mono"><span class="side">Anupama Singh</span><span><b>Part II</b> · <span id="runLabel">Publications</span></span><span class="side">Pomona, California</span></div></div>
+
+  <section id="work" class="ch" data-label="Publications">
+    <div class="in">
+      <h2><span class="r">Selected</span> / Publications &amp; Research</h2>
+
+      <article class="pub">
+        <div><div class="num">01</div><span class="mono">SPIE 2026</span></div>
+        <div>
+          <h3>Deep Learning Models with a Hierarchical Method Using RGB Images from UAV and Proximal Sensor Data for Real-Time Detection of Strawberry Plant Health</h3>
+          <p class="authors"><b>Anupama Singh</b>, S. Bhandari, A. Raheja, S. C. Kosaraju</p>
+          <p class="cite">Proceedings of SPIE, Vol. 14045, June 2026</p>
+          <button class="abs-t mono" aria-expanded="false">+ <span>Abstract</span></button>
+          <div class="abs"><p>We combine UAV RGB imagery with proximal sensor data to detect strawberry plant health in real time. A pipeline joins imagery, EXIF-GPS coordinates, field annotations and sensor readings, yielding more than 400 frames and 9,000 annotations. YOLOv8, YOLO11, DETR and Faster R-CNN are compared for detection, and hierarchical ResNet and EfficientNet classifiers assign ordered health categories. The deployed YOLOv8 model runs on an NVIDIA Jetson Nano with TensorRT FP16 in preliminary field tests.</p></div>
+          <div class="pills mono"><a class="pill" href="https://doi.org/10.1117/12.3095124" target="_blank" rel="noopener">Paper ↗</a><a class="pill" href="https://github.com/Anupama1395/strawberry-plant-health-detection" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+        <figure class="plate">
+          <svg viewBox="0 0 440 300" role="img" aria-label="Schematic: UAV frame with detected plants, passed to a detector and hierarchical classifier on a Jetson device">
+            <rect x="0" y="0" width="440" height="300" fill="#eef2f5"/>
+            <g fill="#d7cfbf"><rect x="20" y="40" width="250" height="44"/><rect x="20" y="128" width="250" height="44"/><rect x="20" y="216" width="250" height="44"/></g>
+            <g fill="#5f8f68"><circle cx="50" cy="62" r="15"/><circle cx="105" cy="62" r="14"/><circle cx="215" cy="62" r="15"/><circle cx="75" cy="150" r="15"/><circle cx="130" cy="150" r="14"/><circle cx="240" cy="150" r="13"/><circle cx="50" cy="238" r="14"/><circle cx="160" cy="238" r="15"/><circle cx="215" cy="238" r="14"/></g>
+            <g fill="#c4a23e"><circle cx="160" cy="62" r="14"/><circle cx="185" cy="150" r="15"/><circle cx="105" cy="238" r="14"/></g>
+            <g fill="none" stroke-width="2"><rect x="141" y="43" width="38" height="38" stroke="#e2492a"/><rect x="165" y="130" width="40" height="40" stroke="#e2492a"/><rect x="86" y="219" width="38" height="38" stroke="#e2492a"/><rect x="31" y="43" width="38" height="38" stroke="#16357e"/><rect x="56" y="131" width="38" height="38" stroke="#16357e"/></g>
+            <g font-family="JetBrains Mono, monospace" font-size="9"><rect x="141" y="32" width="58" height="11" fill="#e2492a"/><text x="144" y="40.5" fill="#fff">stressed</text><rect x="31" y="32" width="46" height="11" fill="#16357e"/><text x="34" y="40.5" fill="#fff">healthy</text></g>
+            <defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#0f1722"/></marker></defs>
+            <path d="M282 150 H306" stroke="#0f1722" stroke-width="1.2" marker-end="url(#ar)"/>
+            <rect x="310" y="96" width="116" height="108" fill="#fff" stroke="#16357e"/>
+            <text x="368" y="122" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#0f1722" font-weight="600">YOLOv8 detector</text>
+            <text x="368" y="140" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#0f1722">+ hierarchical</text>
+            <text x="368" y="154" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#0f1722">classifier</text>
+            <text x="368" y="174" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#16357e">+ proximal sensors</text>
+            <text x="368" y="192" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#e2492a">Jetson · TensorRT FP16</text>
+            <text x="20" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#555e6b" letter-spacing="1.5">UAV RGB FRAME</text>
+          </svg>
+          <figcaption class="mono">Plate 01 — Detection and classification pipeline (schematic)</figcaption>
+        </figure>
+      </article>
+
+      <article class="pub">
+        <div><div class="num">02</div><span class="mono">Ongoing</span></div>
+        <div>
+          <h3>Lunar Landing Site and Terrain Hazard Analysis</h3>
+          <p class="authors"><b>Anupama Singh</b> · Researcher, Cal Poly Pomona</p>
+          <button class="abs-t mono" aria-expanded="false">+ <span>Abstract</span></button>
+          <div class="abs"><p>This work identifies terrain hazard candidates in 5 m/pixel lunar elevation models. It compares morphological detection with a U-Net trained on synthetic patches, incorporating terrain derivatives as inputs. Outputs include candidate catalogs and density maps, with validation against LROC NAC shadow measurements in preparation and image-resolution limits documented.</p></div>
+        </div>
+        <figure class="plate">
+          <svg viewBox="0 0 440 300" role="img" aria-label="Schematic: lunar elevation tile with hazard candidates marked">
+            <defs><radialGradient id="cr" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#9aa3ad"/><stop offset=".7" stop-color="#b9c1c9"/><stop offset="1" stop-color="#cfd5db"/></radialGradient></defs>
+            <rect width="440" height="300" fill="#eef2f5"/>
+            <rect x="20" y="40" width="260" height="236" fill="#c9cfd5"/>
+            <g fill="url(#cr)" stroke="#8e98a3" stroke-width="1"><circle cx="70" cy="90" r="22"/><circle cx="170" cy="120" r="34"/><circle cx="240" cy="80" r="14"/><circle cx="95" cy="200" r="28"/><circle cx="215" cy="225" r="18"/><circle cx="140" cy="250" r="9"/><circle cx="255" cy="160" r="10"/><circle cx="45" cy="150" r="8"/></g>
+            <g fill="none" stroke="#e2492a" stroke-width="1.6"><rect x="45" y="65" width="50" height="50"/><rect x="133" y="83" width="74" height="74"/><rect x="64" y="169" width="62" height="62"/><rect x="194" y="204" width="42" height="42"/></g>
+            <text x="20" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#555e6b" letter-spacing="1.5">ELEVATION MODEL · 5 M/PIXEL</text>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#0f1722">
+              <text x="300" y="70" fill="#16357e" letter-spacing="1.2">METHODS</text>
+              <text x="300" y="92">Morphological</text><text x="300" y="106">detection</text>
+              <text x="300" y="132">U-Net on</text><text x="300" y="146">synthetic patches</text>
+              <text x="300" y="180" fill="#16357e" letter-spacing="1.2">OUTPUTS</text>
+              <text x="300" y="202">Candidate catalog</text><text x="300" y="218">Density maps</text>
+              <rect x="300" y="240" width="9" height="9" fill="none" stroke="#e2492a" stroke-width="1.6"/><text x="316" y="248" fill="#555e6b">hazard candidate</text>
+            </g>
+          </svg>
+          <figcaption class="mono">Plate 02 — Hazard candidates on an elevation tile (schematic)</figcaption>
+        </figure>
+      </article>
+
+      <article class="pub">
+        <div><div class="num">03</div><span class="mono">2025</span></div>
+        <div>
+          <h3>Synthetic Data Generation for Healthcare across 27 MIMIC-III Tables</h3>
+          <p class="authors"><b>Anupama Singh</b> · Research Volunteer, AI &amp; MLX Lab</p>
+          <button class="abs-t mono" aria-expanded="false">+ <span>Abstract</span></button>
+          <div class="abs"><p>Access to patient data is restricted by privacy regulations, which limits research and reproducibility. This work builds data cleaning and synthesis workflows across 27 MIMIC-III tables using CTGAN, TVAE, VAE and Gaussian copulas to create reproducible clinical ML datasets. Real and synthetic distributions are compared, and random forest and decision tree classifiers assess downstream predictive utility. In one evaluation, a random forest predicting in-hospital mortality reached 86% accuracy trained on real data and 84% trained on synthetic data.</p></div>
+          <div class="pills mono"><a class="pill" href="https://github.com/Anupama1395/MIMIC_Synthetic_data_Generation/blob/main/Synthetic%20Data%20Generation%20in%20Healthcare.pdf" target="_blank" rel="noopener">Report ↗</a><a class="pill" href="https://github.com/Anupama1395/MIMIC_Synthetic_data_Generation" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+        <figure class="plate">
+          <svg viewBox="0 0 440 300" role="img" aria-label="Bar chart: random forest accuracy 86 percent on real data, 84 percent on synthetic data">
+            <rect width="440" height="300" fill="#eef2f5"/>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#555e6b" letter-spacing="1.5"><text x="30" y="34">MORTALITY PREDICTION · RANDOM FOREST</text></g>
+            <g stroke="rgba(22,53,126,.15)"><line x1="150" y1="60" x2="150" y2="240"/><line x1="250" y1="60" x2="250" y2="240"/><line x1="350" y1="60" x2="350" y2="240"/></g>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#8a919b"><text x="150" y="258" text-anchor="middle">50%</text><text x="250" y="258" text-anchor="middle">75%</text><text x="350" y="258" text-anchor="middle">100%</text></g>
+            <g font-family="Space Grotesk, sans-serif" font-size="12" fill="#0f1722"><text x="30" y="108">Real data</text><text x="30" y="188">Synthetic</text></g>
+            <rect x="150" y="90" width="144" height="28" fill="#16357e"/>
+            <rect x="150" y="170" width="136" height="28" fill="#e2492a"/>
+            <g font-family="Instrument Serif, serif" font-size="28" fill="#0f1722"><text x="302" y="114">86%</text><text x="294" y="194">84%</text></g>
+          </svg>
+          <figcaption class="mono">Plate 03 — Accuracy, real vs synthetic training data</figcaption>
+        </figure>
+      </article>
+    </div>
+  </section>
+
+  <section id="code" class="ch" data-label="Projects">
+    <div class="in">
+      <h2><span class="r">Selected</span> / AI Projects</h2>
+      <div class="cards2">
+        <article>
+          <span class="mono" style="color:var(--red)">Python · scikit-learn · Hugging Face</span>
+          <h4>Retrieval-Augmented Question Answering</h4>
+          <p>A modular RAG workflow with a trainable dense retriever, a TF-IDF baseline and a sequence-to-sequence generator, plus a scripted evaluation harness that compares answer quality across retrieval strategies.</p>
+          <div class="chips"><span>RAG</span><span>dense retrieval</span><span>TF-IDF</span></div>
+        </article>
+        <article>
+          <span class="mono" style="color:var(--red)">Python · PyTorch</span>
+          <h4>minLLaMA: Transformer Language Model</h4>
+          <p>An implementation of Llama-2 components, including self-attention, rotary embeddings, RMSNorm and AdamW, validated against pretrained weights for text generation and classification.</p>
+          <div class="chips"><span>transformers</span><span>RoPE</span><span>RMSNorm</span></div>
+        </article>
+      </div>
+
+      <p class="sub-h">Public repositories</p>
+      <div class="repo"><div><h4><a href="https://github.com/Anupama1395/strawberry-plant-health-detection" target="_blank" rel="noopener">Strawberry Plant Health Detection</a></h4><span class="sub">Research · Jupyter</span></div><div><p>Detection models for strawberry plant health from UAV RGB imagery.</p><div class="chips"><span>Faster R-CNN</span><span>computer vision</span></div></div></div>
+      <div class="repo"><div><h4><a href="https://github.com/Anupama1395/MIMIC_Synthetic_data_Generation" target="_blank" rel="noopener">MIMIC Synthetic Data Generation</a></h4><span class="sub">Research · Jupyter</span></div><div><p>Synthesis pipelines and fidelity and utility evaluation across MIMIC-III tables.</p><div class="chips"><span>SDV</span><span>TVAE</span><span>CTGAN</span></div></div></div>
+      <div class="repo"><div><h4><a href="https://github.com/Anupama1395/Anupama1395-CodeMixBench-Extension" target="_blank" rel="noopener">CodeMixBench Extension</a></h4><span class="sub">Team project · Python</span></div><div><p>Evaluation scripts and semantic similarity metrics for LLMs on code-mixed text.</p><div class="chips"><span>LLM evaluation</span><span>multilingual NLP</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="chron" class="ch" data-label="Experience">
+    <div class="in">
+      <h2><span class="r">Experience</span> / Research &amp; Industry</h2>
+      <div class="xp" id="xp">
+        <div class="job"><span class="when">Jun 2025 – Present<br>Pomona, CA</span><div><h4>Cal Poly Pomona</h4><span class="role">Graduate Research Assistant · UAV Plant Health Detection</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Built a PyTorch pipeline joining UAV imagery, EXIF-GPS coordinates, field annotations and proximal sensor readings; prepared 400+ frames and 9,000+ annotations.</li>
+            <li>Trained and compared YOLOv8, YOLO11, DETR and Faster R-CNN using mAP, per-class AP, precision, recall and confusion matrices.</li>
+            <li>Deployed YOLOv8 with live camera input on NVIDIA Jetson Nano; exported models to ONNX and TensorRT FP16.</li>
+            <li>Developed hierarchical ResNet and EfficientNet classifiers for ordered plant-health categories; co-authored results in SPIE proceedings.</li>
+          </ul></div></div><span class="n">01</span></div>
+        <div class="job"><span class="when">Ongoing<br>Pomona, CA</span><div><h4>Cal Poly Pomona</h4><span class="role">Researcher · Lunar Landing Site &amp; Terrain Analysis</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Compared morphological detection with a U-Net trained on synthetic patches, using terrain derivatives to identify hazard candidates in 5 m/pixel lunar elevation models.</li>
+            <li>Produced candidate catalogs and density maps; prepared LROC NAC shadow-based validation and documented image-resolution limits.</li>
+          </ul></div></div><span class="n">02</span></div>
+        <div class="job"><span class="when">2025</span><div><h4>AI &amp; MLX Lab</h4><span class="role">Research Volunteer · Medical &amp; Synthetic Data</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Built data cleaning and synthesis workflows across 27 MIMIC-III tables using CTGAN, TVAE, VAE and Gaussian copulas.</li>
+            <li>Compared real and synthetic distributions and trained random forest and decision tree classifiers to assess predictive utility.</li>
+          </ul></div></div><span class="n">03</span></div>
+        <div class="job"><span class="when">Nov 2023 – Dec 2024<br>Mumbai, India</span><div><h4>FreightCrate Technology</h4><span class="role">Strategy Analyst · Founders' Office</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Designed real-time analytics dashboards and reporting pipelines to support operational decisions and performance monitoring.</li>
+            <li>Partnered with engineering to translate business questions into measurable metrics and guide data-driven operational improvements.</li>
+          </ul></div></div><span class="n">04</span></div>
+        <div class="job"><span class="when">Dec 2022 – Sep 2023<br>Bangalore, India</span><div><h4>Goal Teller Pvt Ltd</h4><span class="role">Analyst</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Built customer-retention models and integrated analytics into client portfolio-optimization workflows to support engagement decisions.</li>
+          </ul></div></div><span class="n">05</span></div>
+        <div class="job"><span class="when">Mar 2018 – Dec 2022<br>Bangalore, India</span><div><h4>Think &amp; Learn Pvt Ltd (BYJU'S)</h4><span class="role">Manager · User Experience Data Analytics</span>
+          <div class="did"><button class="mono" aria-expanded="false">+ Responsibilities</button><ul>
+            <li>Led a 20-member analytics team applying predictive modeling and cohort analysis to understand retention patterns across 2,500+ users.</li>
+            <li>Partnered with engineering to build data pipelines and dashboards for recurring retention reporting and stakeholder decision-making.</li>
+          </ul></div></div><span class="n">06</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="ch" data-label="Skills">
+    <div class="in">
+      <h2><span class="r">Technical</span> Skills</h2>
+      <div class="skills">
+        <div><h4>Languages &amp; data</h4><p>Python, SQL, C++, R, pandas, NumPy, SciPy</p></div>
+        <div><h4>Machine learning</h4><p>scikit-learn, TensorFlow, random forests, decision trees, binary and multiclass classification, feature preprocessing, class-imbalance analysis</p></div>
+        <div><h4>Computer vision</h4><p>YOLOv8, YOLO11, DETR, Faster R-CNN, ResNet, EfficientNet, U-Net, OpenCV, Roboflow, rasterio</p></div>
+        <div><h4>Pipelines &amp; deployment</h4><p>PyTorch, CUDA, ONNX, TensorRT, NVIDIA Jetson, Git, Jupyter</p></div>
+        <div><h4>NLP &amp; cloud</h4><p>Hugging Face, Transformers, RAG, TF-IDF, dense retrieval; AWS Bedrock, Lambda, S3</p></div>
+        <div><h4>Evaluation &amp; synthesis</h4><p>Precision, recall, F1, mAP, confusion matrices; CTGAN, TVAE, VAE, Gaussian copulas</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="edu" class="ch dark-tail" data-label="Education">
+    <div class="in">
+      <h2><span class="r">Education</span> &amp; Service</h2>
+      <div class="edu">
+        <article><span class="when">Expected Dec 2026</span><h4>California State Polytechnic University, Pomona</h4><p><b>M.S.</b> in Computer Science</p><span class="k">01</span></article>
+        <article><span class="when">2018</span><h4>University of Mysore, India</h4><p><b>M.B.A.</b> in Marketing</p><span class="k">02</span></article>
+        <article><span class="when">2015</span><h4>SNDT Women's University, India</h4><p><b>B.Sc.</b> in Information Technology</p><span class="k">03</span></article>
+      </div>
+      <div class="service">
+        <p class="sub-h" style="margin:0 0 .4rem">Teaching &amp; service</p>
+        <div class="row"><span>Course Support, ML Foundations · Break Through Tech AI / Cornell Tech</span><span>Summer 2026</span></div>
+        <div class="row"><span>Contributor, recruitment system for Bakersfield · CSU AI Summer Camp</span><span>Jul 2026</span></div>
+        <div class="row"><span>Judge · IgniteCS Programming Expo</span><span>Cal Poly Pomona</span></div>
+        <div class="row"><span>Volunteer · PolySec</span><span>Cal Poly Pomona</span></div>
+        <div class="row"><span>Member · Data Science &amp; AI Group, Women in Tech, Google Developer Groups</span><span>Cal Poly Pomona</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT -->
+<section id="contact" data-shape="spiral">
+  <div class="in">
+    <h2>Open to machine learning engineering <span>roles</span>.</h2>
+    <p>I am seeking machine learning and computer vision engineering positions beginning after December 2026, and welcome inquiries about research collaboration.</p>
+    <p class="mail">anupamasingh47 [at] gmail [dot] com</p>
+    <div class="big">
+      <a href="https://www.linkedin.com/in/anupama-singh/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/Anupama1395" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <div class="foot-links mono">
+      <a href="https://doi.org/10.1117/12.3095124" target="_blank" rel="noopener">— SPIE publication</a>
+      <a href="https://github.com/Anupama1395?tab=repositories" target="_blank" rel="noopener">— All repositories</a>
+      <a href="#hero">— Back to top</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="in mono">
+    <span>Anupama Singh · Pomona, California</span>
+    <span>© 2026 Anupama Singh</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = matchMedia('(pointer:fine)').matches;
+
+/* splash */
+
+
+/* progress + ticks + runner label */
+const ticks = $$('#ticks a'), secs = ticks.map(a => $(a.getAttribute('href')));
+const runLabel = $('#runLabel'), paperSecs = $$('.paper section');
+function onScroll(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  $('#bar').style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  let k = 0; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .45) k = i; });
+  ticks.forEach((a, i) => a.classList.toggle('on', i === k));
+  paperSecs.forEach(s => { if (s.getBoundingClientRect().top < innerHeight * .3) runLabel.textContent = s.dataset.label; });
+  const xp = $('#xp'), r = xp.getBoundingClientRect();
+  xp.style.setProperty('--p', Math.max(0, Math.min(1, (innerHeight * .75 - r.top) / r.height)).toFixed(3));
+  pickShape();
+}
+addEventListener('scroll', onScroll, {passive:true});
+
+
+/* ===== particle field ===== */
+const cv = $('#field'), g = cv.getContext('2d');
+let W, H, dpr, P = [], shape = 'rings', targets = {}, mouse = {x:-1e4, y:-1e4};
+const N = () => innerWidth < 700 ? 1000 : 2400;
+function rnd(seed){ let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+function buildTargets(){
+  const n = P.length, r = rnd(42);
+  // rings: plants seen from above, a loose grid on the right
+  const rings = [], cols = W < 700 ? 3 : 4, rows = 4, cx0 = W < 700 ? W * .2 : W * .55, cw = (W - cx0 - 40) / cols, rh = H / rows;
+  for (let i = 0; i < n; i++){
+    const c = i % (cols * rows), gx = c % cols, gy = Math.floor(c / cols);
+    const R = Math.min(cw, rh) * (.24 + ((gx * 7 + gy * 3) % 5) * .03), a = r() * Math.PI * 2, j = 1 + (r() - .5) * .12;
+    rings.push([cx0 + cw * (gx + .5) + Math.cos(a) * R * j * 1.15, rh * (gy + .5) + Math.sin(a) * R * j, 0]);
+  }
+  // box: a plant rosette with a detection box around it
+  const box = [], bx = W < 900 ? W * .5 : W * .62, by = H * .5, S = Math.min(W, H) * (W < 700 ? .32 : .3);
+  for (let i = 0; i < n; i++){
+    if (i < n * .3){ // box outline + label tab
+      const t = r() * 4, side = Math.floor(t), f = t - side, jt = (r() - .5) * 4;
+      let x, y;
+      if (side === 0){ x = bx - S + 2 * S * f; y = by - S + jt; } else if (side === 1){ x = bx + S + jt; y = by - S + 2 * S * f; } else if (side === 2){ x = bx + S - 2 * S * f; y = by + S + jt; } else { x = bx - S + jt; y = by + S - 2 * S * f; }
+      if (r() < .18){ x = bx - S + r() * S * .9; y = by - S - 4 - r() * S * .16; }
+      box.push([x, y, 1]);
+    } else { // rosette: 8 leaves
+      const a = r() * Math.PI * 2, k = Math.abs(Math.cos(4 * a)), rr = S * .82 * Math.sqrt(r()) * (.35 + .65 * k);
+      box.push([bx + Math.cos(a) * rr, by + Math.sin(a) * rr, r() < .25 ? 2 : 0]);
+    }
+  }
+  // spiral: sunflower phyllotaxis
+  const spiral = [], sx = W < 900 ? W * .5 : W * .66, sy = H * .55, SR = Math.min(W, H) * .44, golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < n; i++){ const t = i / n, rr = SR * Math.sqrt(t), a = i * golden; spiral.push([sx + Math.cos(a) * rr, sy + Math.sin(a) * rr, t < .18 ? 2 : 0]); }
+  targets = {rings, box, spiral};
+}
+function build(){
+  dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const n = N(), r = rnd(7);
+  if (P.length !== n) P = Array.from({length: n}, () => ({x: r() * W, y: r() * H, vx: 0, vy: 0, s: .6 + r() * 1.1, ph: r() * 6.28}));
+  buildTargets();
+}
+const shapeSecs = $$('[data-shape]');
+function pickShape(){
+  let s = null;
+  shapeSecs.forEach(el => { const b = el.getBoundingClientRect(); if (b.top < H * .55 && b.bottom > H * .3) s = el.dataset.shape; });
+  shape = s || shape;
+}
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+const colors = ['rgba(244,241,234,', 'rgba(226,73,42,', 'rgba(217,164,65,'];
+let t0 = performance.now();
+function frame(now){
+  const t = (now - t0) / 1000, tg = targets[shape];
+  g.clearRect(0, 0, W, H);
+  for (let i = 0; i < P.length; i++){
+    const p = P[i], q = tg[i], wob = reduce ? 0 : 1.2;
+    const tx = q[0] + Math.sin(t * .8 + p.ph) * wob, ty = q[1] + Math.cos(t * .7 + p.ph) * wob;
+    p.vx += (tx - p.x) * .012; p.vy += (ty - p.y) * .012;
+    const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
+    
+    p.vx *= .86; p.vy *= .86; p.x += p.vx; p.y += p.vy;
+    g.fillStyle = colors[q[2]] + (q[2] ? .6 : (W < 700 ? .2 : .32)) + ')';
+    g.fillRect(p.x, p.y, p.s, p.s);
+  }
+  requestAnimationFrame(frame);
+}
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { build(); onScroll(); }, 150); });
+build(); onScroll(); requestAnimationFrame(frame);
+
+/* ===== live field scan ===== */
+(function(){
+  const grid = $('#grid'), C = 18, R = 12, r = rnd(1395), cells = [];
+  for (let i = 0; i < C * R; i++){
+    const sick = r() < .22, score = sick ? Math.min(.97, .35 + r() * .6) : Math.max(.03, r() * .62);
+    const el = document.createElement('i'); el.className = sick ? 's' : 'h'; grid.appendChild(el);
+    cells.push({el, sick, score, seen: false});
+  }
+  const thr = $('#thr'); let col = 0;
+  function tally(){
+    const t = +thr.value; let seen = 0, flag = 0, miss = 0, fa = 0;
+    cells.forEach(c => {
+      const on = c.seen && c.score >= t;
+      c.el.classList.toggle('flag', on && c.sick); c.el.classList.toggle('fa', on && !c.sick); c.el.classList.toggle('seen', c.seen);
+      if (c.seen){ seen++; if (on && c.sick) flag++; if (on && !c.sick) fa++; if (!on && c.sick) miss++; }
+    });
+    $('#rSeen').textContent = seen; $('#rFlag').textContent = flag; $('#rMiss').textContent = miss; $('#rFa').textContent = fa;
+    $('#thrV').textContent = t.toFixed(2); $('#mode').textContent = t < .35 ? 'high recall' : t > .65 ? 'high precision' : 'balanced';
+  }
+  function step(){
+    cells.forEach((c, i) => c.el.classList.toggle('scan', i % C === col));
+    for (let y = 0; y < R; y++) cells[y * C + col].seen = true;
+    tally();
+    col++; if (col >= C){ col = 0; setTimeout(() => { cells.forEach(c => c.seen = false); }, 1600); }
+  }
+  thr.addEventListener('input', tally);
+  if (reduce){ cells.forEach(c => c.seen = true); tally(); }
+  else { cells.forEach((c, i) => { if (i % C < 12) c.seen = true; }); col = 12; tally(); setInterval(step, 420); }
+})();
+
+/* ===== abstracts + what I did ===== */
+$$('.abs-t').forEach(b => b.addEventListener('click', () => { const a = b.closest('.pub'); const o = a.classList.toggle('open'); b.setAttribute('aria-expanded', o); b.firstChild.textContent = o ? '− ' : '+ '; }));
+$$('.did button').forEach(b => b.addEventListener('click', () => { const j = b.closest('.job'); const o = j.classList.toggle('open'); b.setAttribute('aria-expanded', o); b.textContent = (o ? '− ' : '+ ') + 'Responsibilities'; }));
+
+
+
+/* ===== S to simplify ===== */
+addEventListener('keydown', e => {
+  if (e.target.closest('input,textarea') || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === 's' || e.key === 'S') document.body.classList.toggle('less');
+});
+})();
+</script>
+</body>
+</html>
